@@ -8,6 +8,20 @@
     }
 }
 
+
+@keyframes intro {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
 header {
     position: fixed;
     top: 0;
@@ -29,7 +43,17 @@ header {
         }
     }
 
+    .btn-wrap {
+        display: flex;
+        align-items: center;
+        order: 1;
+    }
+
     nav {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
         ul {
             display: flex;
 
@@ -50,6 +74,7 @@ header {
                     right: 0;
                     background-color: $turqoise;
                     transition: width 0.25s ease-in-out;
+                    z-index: -1;
                 }
 
                 &:hover {
@@ -71,22 +96,20 @@ header {
     display: none;
 }
 
-.fa-bars,
-.fa-times {
-    display: none;
-}
-
-
 .hero {
     display: flex;
     align-items: center;
     width: 100%;
     height: 100vh;
     position: relative;
+
+    img,
+    .hero-intro {
+        width: 50%;
+    }
     
 
     img {
-        width: 50%;
         height: 100%;
         object-fit: cover;
     }
@@ -101,6 +124,7 @@ header {
         text-align: left;
         border-bottom: 5px solid $turqoise;
         border-right: 5px solid $turqoise;
+        animation: intro 1s ease-in forwards;
 
         h1 {
             width: 100%;
@@ -119,24 +143,33 @@ header {
             padding: 18px 46px;
             border-radius: 32px;
             font-size: 18px;
+            font-weight: 600;
             background-color: $turqoise;
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            transition: transform .25s ease-in-out;
+            will-change: transform;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
     }
 }
 
 .product-container,
-.users-container {
+.users-container,
+.faq-container {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 100px 40px;
+    padding: 60px 40px;
 
 
     .user-heading,
-    .product-heading {
+    .product-heading,
+    .faq-heading {
         width: 100%;
         font-size: 40px;
         text-align: center;
@@ -154,6 +187,7 @@ header {
         margin-bottom: 60px;
         box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         border-radius: 15px;
+        border: 2px solid transparent;
         overflow: hidden;
 
         &:nth-of-type(3n + 3) {
@@ -180,7 +214,6 @@ header {
             flex: 1;
             position: relative;
 
-            h4,
             h3 {
                 margin-bottom: 10px;
             }
@@ -190,16 +223,11 @@ header {
                 flex: 1;
             }
 
+            .price {
+                font-size: 24px;
+            }
+
             .overlay {
-                width: 100%;
-                height: 100%;
-                padding: 20px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                background-color: $white1;
-                visibility: hidden;
-                opacity: 0;
                 transform: translateY(100%);
                 transition: transform 0.5s ease-in-out;
                 border-bottom-left-radius: 15px;
@@ -233,10 +261,14 @@ header {
         width: calc(50% - 10px);
         margin-right: 20px;
         padding: 20px;
-        border: 5px solid $blue-bell;
-        border-radius: 15px;
+        border-top-right-radius: 15px;
+        border-bottom-left-radius: 15px;
         margin-bottom: 40px;
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        border: 5px solid $blue-bell;
+        transition: transform 0.25s ease;
+        will-change: transform;
+        position: relative;
 
         &:nth-of-type(2n + 2) {
             margin-right: 0;
@@ -248,8 +280,77 @@ header {
             margin-bottom: 20px;
         }
 
-        h4 {
+        h3 {
             margin-bottom: 8px;
+        }
+
+        .customer-info {
+            transition: visibility 0.25s ease-in-out, opacity 0.25s ease-in-out;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            overflow-y: auto;
+        }
+
+        &:hover {
+            transform: scale(0.98);
+
+            .customer-info {
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+.faq-container {
+    justify-content: center;
+
+    .faq  {
+        width: 100%;
+
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .tab-single {
+                border: 5px solid $blue-bell;
+                padding: 10px 20px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+                width: 100%;
+                max-width: 800px;
+        
+                .question {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+                    margin-bottom: 6px;
+        
+                    h3 {
+                        font-size: 18px;
+                        margin-right: 5px;
+                    }
+                }
+
+                .answer {
+                    overflow: hidden;
+                    height: 100%;
+                    max-height: 0;
+                }
+
+                &.show {
+                    .question .fa-chevron-down {
+                        transform: rotate(180deg);
+                    }
+
+                    .answer {
+                        max-height: 100%;
+                    }
+                }
+            }
         }
     }
 }
@@ -284,6 +385,7 @@ header {
 
 footer {
     background-color: $turqoise;
+    position: relative;
 
     .container {
         width: 100%;
@@ -294,6 +396,7 @@ footer {
     }
 
     h3 {
+        color: $onyx !important;
         margin-bottom: 30px;
     }
 
@@ -304,19 +407,16 @@ footer {
 
         a {
             margin-right: 15px;
+            transition: opacity 0.25s ease-in-out;
+
+            &:hover {
+                opacity: 0.7;
+            }
 
             &:last-of-type {
                 margin-right: 0;
             }
         }
-
-        .fa-facebook,
-        .fa-instagram,
-        .fa-twitter {
-            color: $onyx;
-            font-size: 34px;
-        }
-
     }
 }
 
@@ -330,6 +430,7 @@ footer {
 
        nav {
            width: 100%;
+           order: 2;
 
            ul {
             display: none;
@@ -340,12 +441,17 @@ footer {
             }
            }  
        }
+
+       .btn-wrap {
+           order: 1;
+       }
     }
 
     .mobile-nav {
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        margin-right: 10px;
 
         .fa-times {
             display: none;
@@ -355,12 +461,14 @@ footer {
     .fa-bars,
     .fa-times {
         font-size: 24px;
+        color: $onyx;
     }
 
     .hero {
         flex-direction: column-reverse;
 
-        img {
+        img,
+        .hero-intro {
             width: 100%;
         }
 
@@ -378,8 +486,13 @@ footer {
         }
     }
 
-    .product-container {
+    .product-container,
+    .users-container,
+    .faq-container {
         padding: 50px 20px;
+    }
+
+    .product-container {
         .product {
             width: calc(50% - 10px);
 
